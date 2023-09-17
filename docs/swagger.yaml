@@ -1,0 +1,1340 @@
+basePath: /api/v1
+definitions:
+  auth_http.loginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  auth_http.loginSuccessResponse:
+    properties:
+      code:
+        type: integer
+      token:
+        type: string
+      user:
+        $ref: '#/definitions/domain.UserInfoResponse'
+    type: object
+  auth_http.registerRequest:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+  brand_http.addNewBrandRequest:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    type: object
+  brand_http.getBrandResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        $ref: '#/definitions/coreModel.BrandModel'
+    type: object
+  brand_http.getBrandsResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        $ref: '#/definitions/coreModel.BrandsModel'
+    type: object
+  brand_http.updateBrandRequest:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    type: object
+  cart_http.getCartResponse:
+    properties:
+      cart:
+        $ref: '#/definitions/coreModel.CartModel'
+      code:
+        type: integer
+    type: object
+  category_http.addCategoryRequest:
+    properties:
+      name:
+        type: string
+    type: object
+  category_http.getCategoriesResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        $ref: '#/definitions/coreModel.CategoriesModel'
+    type: object
+  category_http.getCategoryResponse:
+    properties:
+      category:
+        $ref: '#/definitions/coreModel.CategoryModel'
+      code:
+        type: integer
+    type: object
+  category_http.updateCategoryRequest:
+    properties:
+      name:
+        type: string
+    type: object
+  common.BaseResponse:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+    type: object
+  common.Pagination:
+    properties:
+      limit:
+        type: integer
+      page:
+        type: integer
+      totalRows:
+        type: integer
+    type: object
+  coreModel.BrandModel:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+      slug:
+        type: string
+    type: object
+  coreModel.BrandsModel:
+    properties:
+      brands:
+        items:
+          $ref: '#/definitions/coreModel.BrandModel'
+        type: array
+      pagination:
+        $ref: '#/definitions/common.Pagination'
+    type: object
+  coreModel.CartModel:
+    properties:
+      id:
+        type: integer
+      userId:
+        type: integer
+    type: object
+  coreModel.CategoriesModel:
+    properties:
+      categories:
+        items:
+          $ref: '#/definitions/coreModel.CategoryModel'
+        type: array
+      pagination:
+        $ref: '#/definitions/common.Pagination'
+    type: object
+  coreModel.CategoryModel:
+    properties:
+      name:
+        type: string
+      slug:
+        type: string
+    type: object
+  coreModel.ListUsesModel:
+    properties:
+      pagination:
+        $ref: '#/definitions/common.Pagination'
+      users:
+        items:
+          $ref: '#/definitions/coreModel.UserModel'
+        type: array
+    type: object
+  coreModel.ProductModel:
+    properties:
+      brandName:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      properties:
+        items:
+          properties:
+            name:
+              type: string
+            value:
+              type: string
+          type: object
+        type: array
+      thumbnail:
+        type: string
+    type: object
+  coreModel.ProductsModel:
+    properties:
+      pagination:
+        $ref: '#/definitions/common.Pagination'
+      products:
+        items:
+          $ref: '#/definitions/coreModel.ProductModel'
+        type: array
+    type: object
+  coreModel.UserModel:
+    properties:
+      avatar:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      phoneNumber:
+        type: string
+      role:
+        type: integer
+      status:
+        type: string
+      username:
+        type: string
+    type: object
+  domain.UserInfoResponse:
+    properties:
+      name:
+        type: string
+      role:
+        type: integer
+    type: object
+  product_http.addProductRequest:
+    properties:
+      brand:
+        type: string
+      name:
+        type: string
+      properties:
+        items:
+          properties:
+            name:
+              type: string
+            value:
+              type: string
+          type: object
+        type: array
+      thumbnail:
+        type: string
+    type: object
+  product_http.getProductResponse:
+    properties:
+      code:
+        type: integer
+      product:
+        $ref: '#/definitions/coreModel.ProductModel'
+    type: object
+  product_http.getProductsResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        $ref: '#/definitions/coreModel.ProductsModel'
+    type: object
+  product_http.updateProductRequest:
+    properties:
+      brand:
+        type: string
+      name:
+        type: string
+      properties:
+        items:
+          properties:
+            name:
+              type: string
+            value:
+              type: string
+          type: object
+        type: array
+      thumbnail:
+        type: string
+    type: object
+  user_http.getUserByIdResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        $ref: '#/definitions/coreModel.UserModel'
+    type: object
+  user_http.getUsersResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        $ref: '#/definitions/coreModel.ListUsesModel'
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  title: mobile-ecommerce project by Nguyễn Khánh Duy
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      description: Login user account
+      parameters:
+      - description: email and password account
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/auth_http.loginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/auth_http.loginSuccessResponse'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "401":
+          description: Unauthorization
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Auth
+  /auth/register:
+    post:
+      description: Register new user
+      parameters:
+      - description: user info
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/auth_http.registerRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Auth
+  /brands:
+    get:
+      description: Get list brand with condition
+      parameters:
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: q
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/brand_http.getBrandsResponse'
+        "400":
+          description: invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Brands
+    post:
+      description: Add new brand
+      parameters:
+      - description: Bearer token
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: new brand info
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/brand_http.addNewBrandRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/brand_http.getBrandResponse'
+        "400":
+          description: invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "401":
+          description: unauthorization
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "403":
+          description: forbidden
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Brands
+  /brands/{slug}:
+    delete:
+      description: Delete brand with slug
+      parameters:
+      - description: Bearer token
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: brand's slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/brand_http.getBrandResponse'
+        "400":
+          description: invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "401":
+          description: unauthorization
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "403":
+          description: forbidden
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Brands
+    get:
+      description: Get a brand with slug
+      parameters:
+      - description: Bearer token
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: brand's slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/brand_http.getBrandResponse'
+        "400":
+          description: invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "401":
+          description: unauthorization
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "403":
+          description: forbidden
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Brands
+    put:
+      description: Update Brand info with slug param
+      parameters:
+      - description: Bearer token
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: brand's slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: new info
+        in: body
+        name: newInfo
+        required: true
+        schema:
+          $ref: '#/definitions/brand_http.updateBrandRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/brand_http.getBrandResponse'
+        "400":
+          description: invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "401":
+          description: unauthorization
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "403":
+          description: forbidden
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Brands
+  /cart:
+    delete:
+      description: delete cart with userid
+      parameters:
+      - description: bearer token
+        in: header
+        name: authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "400":
+          description: invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "401":
+          description: unauthorization
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Cart
+    get:
+      description: get cart with userid
+      parameters:
+      - description: bearer token
+        in: header
+        name: authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/cart_http.getCartResponse'
+        "400":
+          description: invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "401":
+          description: unauthorization
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Cart
+    post:
+      description: add cart with userid
+      parameters:
+      - description: bearer token
+        in: header
+        name: authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "400":
+          description: invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "401":
+          description: unauthorization
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Cart
+  /carts-products:
+    post:
+      description: add product to cart
+      parameters:
+      - description: bearer token
+        in: header
+        name: authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "400":
+          description: invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "401":
+          description: unauthorization
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Carts-Products
+    put:
+      description: change quantity of product in cart
+      parameters:
+      - description: bearer token
+        in: header
+        name: authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "400":
+          description: invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "401":
+          description: unauthorization
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Carts-Products
+  /carts-products/clear:
+    delete:
+      description: remove all product in cart
+      parameters:
+      - description: bearer token
+        in: header
+        name: authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "400":
+          description: invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "401":
+          description: unauthorization
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Carts-Products
+  /carts-products/remove:
+    delete:
+      description: remove specific product in cart
+      parameters:
+      - description: bearer token
+        in: header
+        name: authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "400":
+          description: invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "401":
+          description: unauthorization
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Carts-Products
+  /categories:
+    get:
+      description: Get list categories
+      parameters:
+      - description: Bearer token
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: q
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/category_http.getCategoriesResponse'
+        "400":
+          description: invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "401":
+          description: unauthorization
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "403":
+          description: forbidden
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Categories
+    post:
+      description: Create a category by slug
+      parameters:
+      - description: Bearer token
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: new info
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/category_http.addCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "400":
+          description: invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "401":
+          description: unauthorization
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "403":
+          description: forbidden
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Categories
+  /categories/{slug}:
+    delete:
+      description: Delete a category by slug
+      parameters:
+      - description: Bearer token
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: category slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "400":
+          description: invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "401":
+          description: unauthorization
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "403":
+          description: forbidden
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Categories
+    get:
+      description: Get a category by slug
+      parameters:
+      - description: Bearer token
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: category slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/category_http.getCategoryResponse'
+        "400":
+          description: invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "401":
+          description: unauthorization
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "403":
+          description: forbidden
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Categories
+    put:
+      description: Update a category by slug
+      parameters:
+      - description: Bearer token
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: category slug
+        in: path
+        name: slug
+        required: true
+        type: string
+      - description: new info
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/category_http.updateCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "400":
+          description: invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "401":
+          description: unauthorization
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "403":
+          description: forbidden
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Categories
+  /product-categories:
+    post:
+      description: add product to cart
+      parameters:
+      - description: bearer token
+        in: header
+        name: authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "400":
+          description: invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "401":
+          description: unauthorization
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Product-Categories
+  /product-categories/clear:
+    delete:
+      description: remove all product in cart
+      parameters:
+      - description: bearer token
+        in: header
+        name: authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "400":
+          description: invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "401":
+          description: unauthorization
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Product-Categories
+  /product-categories/remove:
+    delete:
+      description: remove specific product in cart
+      parameters:
+      - description: bearer token
+        in: header
+        name: authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "400":
+          description: invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "401":
+          description: unauthorization
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "404":
+          description: not found
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Product-Categories
+  /products:
+    get:
+      description: Get list products with condition
+      parameters:
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: q
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/product_http.getProductsResponse'
+        "400":
+          description: invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Products
+    post:
+      description: Add a product
+      parameters:
+      - description: bearer token
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: new product info
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/product_http.addProductRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "400":
+          description: invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "401":
+          description: unauthorization
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "403":
+          description: forbidden
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Products
+  /products/{id}:
+    delete:
+      description: Delete a product
+      parameters:
+      - description: bearer token
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: product's id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "400":
+          description: invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "401":
+          description: unauthorization
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "403":
+          description: forbidden
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Products
+    get:
+      description: Get a product with Its id
+      parameters:
+      - description: product's id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/product_http.getProductResponse'
+        "400":
+          description: invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "404":
+          description: product not found
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Products
+    put:
+      description: Update a product
+      parameters:
+      - description: bearer token
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: product's id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: new info
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/product_http.updateProductRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "400":
+          description: invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "401":
+          description: unauthorization
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "403":
+          description: forbidden
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "404":
+          description: product not found
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Products
+  /users:
+    get:
+      description: Get list of users with conditon
+      parameters:
+      - description: Bearer token
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: orderBy
+        type: string
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: q
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/user_http.getUsersResponse'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "401":
+          description: Unathorization
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Users
+  /users/{id}:
+    get:
+      description: Update user info by id
+      parameters:
+      - description: access token
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: User id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "401":
+          description: Unauthorization
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+        "500":
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/common.BaseResponse'
+      tags:
+      - Users
+swagger: "2.0"
